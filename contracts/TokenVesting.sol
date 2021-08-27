@@ -7,17 +7,17 @@
 // 4. We will need a method for populating the contract with allocations (address, token
 //    amounts).
 
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
-
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /// @title TokenVesting
+/// @author Gustavo Guimaraes
 /// @dev Contract allows users to claim tokens at a constant rate over a specified block range
-contract TokenVesting {
+contract TokenVesting is ReentrancyGuard {
     using SafeERC20 for IERC20;
 
     uint256 private _startReleaseBlock;
@@ -87,7 +87,7 @@ contract TokenVesting {
     }
 
     /// @dev Claim available tokens for an account
-    function claim() external {
+    function claim() external nonReentrant {
         require(
             fundsVestedFor[msg.sender] > fundsClaimedFor[msg.sender],
             "no funds to claim"
@@ -102,5 +102,19 @@ contract TokenVesting {
         _token.safeTransfer(msg.sender, amount);
 
         emit FundsClaimed(msg.sender, amount);
+    }
+
+    /**
+     * @dev Returns total amount of tokens currently vested for all accounts.
+     */
+    function totalVested() public view returns (uint256) {
+        return _totalVested;
+    }
+
+    /**
+     * @dev Returns total amount of tokens claimed for all accounts.
+     */
+    function totalClaimed() public view returns (uint256) {
+        return _totalClaimed;
     }
 }

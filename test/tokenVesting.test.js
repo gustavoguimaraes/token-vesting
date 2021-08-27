@@ -66,6 +66,10 @@ describe("TokenVesting", function () {
       expect(await this.tokenVesting.fundsVestedFor(bob.address)).to.eql(
         BigNumber.from(bobVestedTokensAmount)
       );
+
+      expect(await this.tokenVesting.totalVested()).to.eql(
+        BigNumber.from(aliceVestedTokensAmount + bobVestedTokensAmount)
+      );
     });
   });
 
@@ -115,6 +119,11 @@ describe("TokenVesting", function () {
         BigNumber.from(bobVestedTokensAmount / 2)
       );
 
+      // total claimed calc
+      expect(await this.tokenVesting.totalClaimed()).to.eql(
+        BigNumber.from(aliceVestedTokensAmount / 2 + bobVestedTokensAmount / 2)
+      );
+
       // advance 50 more blocks. All should be claimable
       await increaseBlocks(50);
       await this.tokenVesting.connect(alice).claim();
@@ -141,6 +150,10 @@ describe("TokenVesting", function () {
         BigNumber.from(aliceVestedTokensAmount)
       );
       expect(bobBalanceOfToken).to.eql(BigNumber.from(bobVestedTokensAmount));
+
+      expect(await this.tokenVesting.totalClaimed()).to.eql(
+        BigNumber.from(aliceVestedTokensAmount + bobVestedTokensAmount)
+      );
     });
   });
 });
