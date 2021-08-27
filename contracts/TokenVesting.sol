@@ -40,6 +40,7 @@ contract TokenVesting {
         IERC20 tokenVested
     ) {
         require(startBlock < endBlock, "end must be after start");
+        require(address(tokenVested) != address(0), "!tokenVested");
 
         _startReleaseBlock = startBlock;
         _endReleaseBlock = endBlock;
