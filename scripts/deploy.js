@@ -9,7 +9,7 @@ async function main() {
   const testToken = await MockERC20.deploy("Test", "VEST");
   testToken.deployTransaction.wait();
 
-  const TokenVesting = await hre.ethers.getContractFactory("TokenVesting");
+  const TokenVesting = await ethers.getContractFactory("TokenVesting");
   const tokenVesting = await TokenVesting.deploy(
     startBlock,
     endBlock,
