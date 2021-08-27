@@ -12,7 +12,7 @@ Create a token vesting contract in Solidity for Ethereum. The contract should al
 # Setup
 
 - `npm i`
-- `npm compile`
+- `npm run compile`
 
 # Test
 

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "token vesting contract in Solidity fro EVM based blockchains",
   "scripts": {
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "deploy:testnet": "hardhat run ./scripts/deploy.js --network ropsten"
   },
   "author": "Gustavo Guimaraes",
   "license": "MIT",
@@ -11,6 +13,7 @@
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-etherscan": "^2.1.5",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@openzeppelin/contracts": "^4.3.1",
     "chai": "^4.3.4",
     "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
