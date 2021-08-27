@@ -78,18 +78,19 @@ contract TokenVesting {
             uint256 releasedBlock = block.number - _startReleaseBlock;
             uint256 totalVestingBlock = _endReleaseBlock - _startReleaseBlock;
 
+            uint256 accountBalance = fundsVestedFor[account];
+
             return
-                ((fundsVestedFor[account] * releasedBlock) /
-                    totalVestingBlock) - fundsClaimedFor[account];
+                ((accountBalance * releasedBlock) / (totalVestingBlock)) -
+                fundsClaimedFor[account];
         }
     }
 
     /// @dev Claim available tokens for an account
     function claim() external {
-        require(block.number > _startReleaseBlock, "funds locked");
         require(
             fundsVestedFor[msg.sender] > fundsClaimedFor[msg.sender],
-            "no locked funds remaining"
+            "no funds to claim"
         );
 
         uint256 amount = canClaimAmount(msg.sender);
